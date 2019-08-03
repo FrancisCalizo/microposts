@@ -34,6 +34,19 @@ class UI {
     this.titleInput.value = '';
     this.bodyInput.value = '';
   }
+
+  showAlert(message, className) {
+    const alert = document.createElement('div');
+    alert.classList = className;
+    alert.textContent = message;
+    const parent = document.querySelector('.posts-container');
+    parent.insertBefore(alert, this.posts);
+
+    // Remove after three seconds
+    setTimeout(() => {
+      parent.removeChild(alert);
+    }, 3000);
+  }
 }
 
 export const ui = new UI();

@@ -3,6 +3,8 @@ import { ui } from './ui.js';
 
 // On Page Load Event
 window.addEventListener('DOMContentLoaded', getPosts);
+// On Form Submit Event
+document.querySelector('.post-submit').addEventListener('click', createPost);
 
 // Load and Show Posts
 function getPosts() {
@@ -13,9 +15,6 @@ function getPosts() {
     })
     .catch(err => console.log(err));
 }
-
-// On Form Submit Event
-document.querySelector('.post-submit').addEventListener('click', createPost);
 
 // Create New Post and Show
 function createPost() {
@@ -29,6 +28,7 @@ function createPost() {
     .then(data => {
       getPosts();
       ui.clearForm();
+      ui.showAlert('Post Added', 'alert alert-success');
     })
     .catch(err => console.log(err));
 }
