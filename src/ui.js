@@ -29,6 +29,11 @@ class UI {
     });
     this.posts.innerHTML = output;
   }
+
+  clearForm() {
+    this.titleInput.value = '';
+    this.bodyInput.value = '';
+  }
 }
 
 export const ui = new UI();

@@ -1,18 +1,24 @@
 import { http } from './http.js';
 import { ui } from './ui.js';
 
-// Load Posts on Page Load
-window.addEventListener('DOMContentLoaded', e => {
+// On Page Load Event
+window.addEventListener('DOMContentLoaded', getPosts);
+
+// Load and Show Posts
+function getPosts() {
   http
     .get('http://localhost:3000/Posts')
     .then(data => {
       ui.showPosts(data);
     })
     .catch(err => console.log(err));
-});
+}
 
-// Create New Post
-document.querySelector('.post-submit').addEventListener('click', e => {
+// On Form Submit Event
+document.querySelector('.post-submit').addEventListener('click', createPost);
+
+// Create New Post and Show
+function createPost() {
   const title = document.getElementById('title').value;
   const body = document.getElementById('body').value;
 
@@ -20,6 +26,9 @@ document.querySelector('.post-submit').addEventListener('click', e => {
 
   http
     .post('http://localhost:3000/posts', data)
-    .then(response => console.log(response))
+    .then(data => {
+      getPosts();
+      ui.clearForm();
+    })
     .catch(err => console.log(err));
-});
+}
