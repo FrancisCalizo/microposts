@@ -5,6 +5,8 @@ import { ui } from './ui.js';
 window.addEventListener('DOMContentLoaded', getPosts);
 // On Form Submit Event
 document.querySelector('.post-submit').addEventListener('click', createPost);
+// Click Delete Post Event
+document.getElementById('posts').addEventListener('click', removePost);
 
 // Load and Show Posts
 function getPosts() {
@@ -31,4 +33,13 @@ function createPost() {
       ui.showAlert('Post Added', 'alert alert-success');
     })
     .catch(err => console.log(err));
+}
+
+// Remove Post
+function removePost(e) {
+  const postCard = e.target.parentElement.parentElement.parentElement;
+  console.log(e.target);
+  if (e.target.classList.contains('delete')) {
+    postCard.remove();
+  }
 }
