@@ -4,8 +4,6 @@ import { ui } from './ui.js';
 http
   .get('http://localhost:3000/Posts')
   .then(data => {
-    data.forEach(post => {
-      ui.getPosts(post);
-    });
+    ui.showPosts(data);
   })
   .catch(err => console.log(err));

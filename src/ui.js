@@ -1,22 +1,33 @@
 class UI {
   constructor() {
-    this.title = document.getElementById('title');
-    this.body = document.getElementById('body');
     this.posts = document.getElementById('posts');
+    this.titleInput = document.getElementById('title');
+    this.bodyInput = document.getElementById('body');
+    this.idInput = document.getElementById('id');
+    this.postSubmit = document.querySelector('.post-submit');
+    this.formState = 'add';
   }
 
-  getPosts(post) {
-    const card = document.createElement('div');
-    card.classList = 'card card-body';
-    this.posts.appendChild(card);
+  showPosts(posts) {
+    let output = '';
 
-    const cardTitle = document.createElement('h3');
-    cardTitle.textContent = post.title;
-    card.appendChild(cardTitle);
-
-    const cardBody = document.createElement('p');
-    cardBody.textContent = post.body;
-    card.appendChild(cardBody);
+    posts.forEach(post => {
+      output += `
+        <div class='card mb-3'>
+          <div class='card-body'>
+            <h4 class='card-title'>${post.title}</h4>
+            <p class='card-text'>${post.body}</p>
+            <a href="#" class='edit card-link' data-id=${post.id}>
+              <i class="fa fa-pencil"></i>
+            </a>
+            <a href='#' class='edit card-link' data-id=${post.id}>
+              <i class='fa fa-remove delete'></i>
+            </a>
+          </div>
+        </div>
+      `;
+    });
+    this.posts.innerHTML = output;
   }
 }
 
