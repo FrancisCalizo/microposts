@@ -37,9 +37,17 @@ function createPost() {
 
 // Remove Post
 function removePost(e) {
+  // Remove From UI
   const postCard = e.target.parentElement.parentElement.parentElement;
-  console.log(e.target);
   if (e.target.classList.contains('delete')) {
     postCard.remove();
   }
+
+  // Delete API Request
+  const cardId = e.target.parentElement.dataset.id;
+
+  http
+    .delete(`http://localhost:3000/posts/${cardId}`)
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
 }
