@@ -7,6 +7,8 @@ window.addEventListener('DOMContentLoaded', getPosts);
 document.querySelector('.post-submit').addEventListener('click', createPost);
 // Click Delete Post Event
 document.getElementById('posts').addEventListener('click', removePost);
+// Click Update Post Event
+document.getElementById('posts').addEventListener('click', editPost);
 
 // Load and Show Posts
 function getPosts() {
@@ -39,18 +41,40 @@ function createPost() {
 function removePost(e) {
   // Remove From UI
   const postCard = e.target.parentElement.parentElement.parentElement;
+
   if (e.target.classList.contains('delete')) {
     postCard.remove();
+    // Delete API Request
+    const cardId = e.target.parentElement.dataset.id;
+
+    http
+      .delete(`http://localhost:3000/posts/${cardId}`)
+      .then(data => console.log(data))
+      .catch(err => console.log(err));
+
+    // Show Alert
+    ui.showAlert('Post has been deleted', 'alert alert-danger');
   }
 
-  // Delete API Request
-  const cardId = e.target.parentElement.dataset.id;
+  e.preventDefault();
+}
 
-  http
-    .delete(`http://localhost:3000/posts/${cardId}`)
-    .then(data => console.log(data))
-    .catch(err => console.log(err));
+// Edit Post
+function editPost(e) {
+  if (e.target.classList.contains('edit')) {
+    const postCard = e.target.parentElement.parentElement.parentElement;
+    const postTitle = e.target.parentElement.children[0].innerHTML;
+    const postBody = e.target.parentElement.children[1].innerHTML;
+    const postId = e.target.dataset.id;
 
-  // Show Alert
-  ui.showAlert('Post has been deleted', 'alert alert-danger');
+    const editData = {
+      title: postTitle,
+      body: postBody,
+      id: postId
+    };
+
+    ui.editForm(editData);
+  }
+
+  e.preventDefault();
 }

@@ -47,6 +47,13 @@ class UI {
       parent.removeChild(alert);
     }, 3000);
   }
+
+  // Fill Form For Edit
+  editForm(data) {
+    this.titleInput.value = data.title;
+    this.bodyInput.value = data.body;
+    this.idInput.value = data.id;
+  }
 }
 
 export const ui = new UI();
