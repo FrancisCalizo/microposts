@@ -50,4 +50,7 @@ function removePost(e) {
     .delete(`http://localhost:3000/posts/${cardId}`)
     .then(data => console.log(data))
     .catch(err => console.log(err));
+
+  // Show Alert
+  ui.showAlert('Post has been deleted', 'alert alert-danger');
 }
