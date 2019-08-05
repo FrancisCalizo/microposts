@@ -33,6 +33,7 @@ class UI {
   clearForm() {
     this.titleInput.value = '';
     this.bodyInput.value = '';
+    this.idInput.value = '';
   }
 
   showAlert(message, className) {
@@ -53,6 +54,32 @@ class UI {
     this.titleInput.value = data.title;
     this.bodyInput.value = data.body;
     this.idInput.value = data.id;
+  }
+
+  // Change State of Form
+  changeFormState(state) {
+    if (state === 'edit') {
+      this.formState = 'edit';
+
+      this.postSubmit.textContent = 'Update Post';
+      this.postSubmit.className = 'post-edit btn btn-warning btn-block';
+
+      const cancel = document.createElement('button');
+      cancel.className = 'post-cancel btn btn-light btn-block';
+      cancel.textContent = 'Cancel';
+
+      const parent = document.querySelector('.card-form');
+      parent.appendChild(cancel);
+    } else {
+      this.clearForm();
+
+      this.postSubmit.textContent = 'Post It';
+      this.postSubmit.className = 'post-submit btn btn-primary btn-block';
+
+      const cancel = document.querySelector('.post-cancel');
+      const parent = document.querySelector('.card-form');
+      parent.removeChild(cancel);
+    }
   }
 }
 

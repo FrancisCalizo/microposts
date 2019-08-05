@@ -9,6 +9,8 @@ document.querySelector('.post-submit').addEventListener('click', createPost);
 document.getElementById('posts').addEventListener('click', removePost);
 // Click Update Post Event
 document.getElementById('posts').addEventListener('click', editPost);
+// Click Cancel Update
+document.querySelector('.card-form').addEventListener('click', cancelEdit);
 
 // Load and Show Posts
 function getPosts() {
@@ -61,7 +63,8 @@ function removePost(e) {
 
 // Edit Post
 function editPost(e) {
-  if (e.target.classList.contains('edit')) {
+  if (e.target.classList.contains('edit') && ui.formState !== 'edit') {
+    console.log(ui.formState);
     const postCard = e.target.parentElement.parentElement.parentElement;
     const postTitle = e.target.parentElement.children[0].innerHTML;
     const postBody = e.target.parentElement.children[1].innerHTML;
@@ -74,7 +77,14 @@ function editPost(e) {
     };
 
     ui.editForm(editData);
+    ui.changeFormState('edit');
   }
 
   e.preventDefault();
+}
+
+function cancelEdit(e) {
+  if (e.target.classList.contains('post-cancel')) {
+    ui.changeFormState('add');
+  }
 }
