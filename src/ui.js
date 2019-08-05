@@ -62,7 +62,7 @@ class UI {
       this.formState = 'edit';
 
       this.postSubmit.textContent = 'Update Post';
-      this.postSubmit.className = 'post-edit btn btn-warning btn-block';
+      this.postSubmit.className = 'post-update btn btn-warning btn-block';
 
       const cancel = document.createElement('button');
       cancel.className = 'post-cancel btn btn-light btn-block';
@@ -71,6 +71,8 @@ class UI {
       const parent = document.querySelector('.card-form');
       parent.appendChild(cancel);
     } else {
+      this.formState = 'add';
+
       this.clearForm();
 
       this.postSubmit.textContent = 'Post It';

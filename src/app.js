@@ -1,16 +1,17 @@
 import { http } from './http.js';
 import { ui } from './ui.js';
-
 // On Page Load Event
 window.addEventListener('DOMContentLoaded', getPosts);
 // On Form Submit Event
 document.querySelector('.post-submit').addEventListener('click', createPost);
 // Click Delete Post Event
 document.getElementById('posts').addEventListener('click', removePost);
-// Click Update Post Event
+// Click Update Post Form Event
 document.getElementById('posts').addEventListener('click', editPost);
 // Click Cancel Update
 document.querySelector('.card-form').addEventListener('click', cancelEdit);
+//Click Update Post
+document.querySelector('.card-form').addEventListener('click', updatePost);
 
 // Load and Show Posts
 function getPosts() {
@@ -23,20 +24,22 @@ function getPosts() {
 }
 
 // Create New Post and Show
-function createPost() {
-  const title = document.getElementById('title').value;
-  const body = document.getElementById('body').value;
+function createPost(e) {
+  if (e.target.classList.contains('post-submit')) {
+    const title = document.getElementById('title').value;
+    const body = document.getElementById('body').value;
 
-  const data = { title: title, body: body };
+    const data = { title: title, body: body };
 
-  http
-    .post('http://localhost:3000/posts', data)
-    .then(data => {
-      getPosts();
-      ui.clearForm();
-      ui.showAlert('Post Added', 'alert alert-success');
-    })
-    .catch(err => console.log(err));
+    http
+      .post('http://localhost:3000/posts', data)
+      .then(data => {
+        getPosts();
+        ui.clearForm();
+        ui.showAlert('Post Added', 'alert alert-success');
+      })
+      .catch(err => console.log(err));
+  }
 }
 
 // Remove Post
@@ -61,9 +64,9 @@ function removePost(e) {
   e.preventDefault();
 }
 
-// Edit Post
+// Edit Post Form
 function editPost(e) {
-  if (e.target.classList.contains('edit') && ui.formState !== 'edit') {
+  if (e.target.classList.contains('edit')) {
     console.log(ui.formState);
     const postCard = e.target.parentElement.parentElement.parentElement;
     const postTitle = e.target.parentElement.children[0].innerHTML;
@@ -77,14 +80,40 @@ function editPost(e) {
     };
 
     ui.editForm(editData);
+    console.log('editPost called');
     ui.changeFormState('edit');
   }
 
   e.preventDefault();
 }
 
+// Cancel Edit Form
 function cancelEdit(e) {
   if (e.target.classList.contains('post-cancel')) {
     ui.changeFormState('add');
+  }
+}
+
+// Confirm Update Post
+function updatePost(e) {
+  if ((ui.formState = 'edit')) {
+    if (e.target.classList.contains('post-update')) {
+      console.log(e.target.parentElement.children);
+
+      const updatedData = {
+        id: ui.idInput.value,
+        title: ui.titleInput.value,
+        body: ui.bodyInput.value
+      };
+
+      http
+        .put(`http://localhost:3000/posts/${updatedData.id}`, updatedData)
+        .then(data => {
+          ui.changeFormState('add');
+          ui.showAlert('Post Updated', 'alert alert-success');
+          getPosts();
+        })
+        .catch(err => console.log(err));
+    }
   }
 }
